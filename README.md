@@ -113,7 +113,8 @@ while True:
 client.close()
 
 ## Output:
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/cdf8b292-d892-4084-b8f4-a8152968da52" />
+<img width="383" height="206" alt="Screenshot 2026-05-15 091731" src="https://github.com/user-attachments/assets/64c0fcce-69b3-450d-b23f-3d7c82fe4d8c" />
+
 
 ## Result:
 
