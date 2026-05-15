@@ -72,54 +72,59 @@ User authentication mechanisms are essential to ensure secure and authorized acc
 Client-server chat applications are versatile tools that facilitate real-time communication between users over a network. They incorporate various components, including server-side and client-side elements, and must consider factors such as security, scalability, and concurrency. As technology continues to advance, client-server chat applications remain integral for collaborative communication in various domains.
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
-## Server.py:
+client.py
 
 import socket
 
-# Server setup
-host = '127.0.0.1'   # Localhost
-port = 5000          # Port number
+client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.bind((host, port))
-server_socket.listen(1)
+client.connect(("localhost", 9999))
 
-print("Server is listening on", host, ":", port)
-conn, addr = server_socket.accept()
-print("Connection from:", addr)
+done=False
 
-while True:
-    data = conn.recv(1024).decode()
-    if not data:
-        break
-    print("Client:", data)
-    message = input("Server: ")
-    conn.send(message.encode())
+while not done:
+    client.send(input("Message ").encode('utf-8'))
+    msg = client.recv(1024).decode('utf-8')
 
-conn.close()
+    if msg == 'quit':
+        done=True
+    else:
+        print(msg)
 
- ## Client.py
+
+
+client.close()
+
+server.py
 
 import socket
+from base64 import decode
+from operator import truediv
 
-# Client setup
-host = '127.0.0.1'   # Same as server
-port = 5000
+server =socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.bind(('localhost', 9999))
+server.listen()
+client,addr=server.accept()
 
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect((host, port))
+done = False
 
-while True:
-    message = input("Client: ")
-    client_socket.send(message.encode())
-    data = client_socket.recv(1024).decode()
-    print("Server:", data)
+while not done:
+    msg = client.recv(1024).decode('utf-8')
 
-client_socket.close()
+    if msg == 'quit':
+        done = True
+    else:
+        print(msg)
+
+    client.send(input("Message ").encode('utf-8'))
+
+
+client.close()
+server.close()
+
 ## Output:
-<img width="1358" height="330" alt="image" src="https://github.com/user-attachments/assets/ed3106ad-4872-45ea-b464-624862d82f70" />
 
-
+<img width="1471" height="396" alt="image" src="https://github.com/user-attachments/assets/78431a42-faf7-41c3-9c34-0466f4eb8a93" />
 
 
 ## Result:
